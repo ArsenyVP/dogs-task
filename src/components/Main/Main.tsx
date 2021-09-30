@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { Container, Typography, Box, Button, CircularProgress } from '@material-ui/core';
 import SelectBox from '../Select/SelectBox';
 import PictureList from '../PictureList/PictureList';
@@ -15,8 +15,16 @@ const Main: React.FC = () => {
     const [subBreedInfo, setSubBreedInfo] = useState<any>("");
 
     const [numbers, setNumbers] = useState<any>(undefined)
-    const numbersArray = Array.from(Array(51).keys());
+    const numbersArray = SetNumbersArray(51);
     const [isLoading, setIsLoading] = useState<boolean>(false);
+
+    function SetNumbersArray(num: number) {
+        const result = useMemo(() => {
+            return Array.from(Array(num).keys()).filter(el => el !== 0)
+        }, [num])
+
+        return result;
+    }
 
     const handleChangeBreed = useCallback(
         (e: React.ChangeEvent<{ name?: string; value: unknown }>) => {
